@@ -8,12 +8,14 @@ import { useSession } from "next-auth/react";
 // import NavbarCollapse from "./NavbarCollapse";
 import IconPen from "@/components/modules/icons/IconPen";
 import IconBell from "@/components/modules/icons/IconBell";
+import { useMediaQuery } from "usehooks-ts";
 
 interface HeaderProps {
     isDynamic?: boolean;
 }
 const Header = ({ isDynamic = true } : HeaderProps) => {
     const { data: session, status } = useSession();
+    const matchesMobile = useMediaQuery("(max-width: 768px)");
 
     return (
         <header
@@ -32,25 +34,40 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
                 <SearchMain />
                 <div className="ml-auto">
                     <div className="flex items-center space-x-2">
-                        <Link href={`/create/blog`} title="Tạo bài viết">
-                            <i className="p-2 bg-gray-100 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
-                                <IconPen size={20} />
-                            </i>
-                        </Link>
-                        <Link href={`/`} title="Thông báo">
-                            <i className="p-2 bg-gray-100 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
-                                <IconBell size={20} />
-                            </i>
-                        </Link>
-                        {status == "authenticated" ? (
-                            <UserDropdown />
-                        ) : (
-                            <Link href={`/auth/login`}>
-                                <span className="py-2 px-3 rounded-md cursor-pointer bg-blue-600 hover:bg-blue-700 text-white">
-                                    Đăng nhập
-                                </span>
-                            </Link>
-                        )}
+                        {
+                            status === "loading" ? (
+                                <>
+                                    <span className="bg-gray-100 w-10 h-10 rounded-full"></span>
+                                    <span className="bg-gray-100 w-10 h-10 rounded-full"></span>
+                                    <span className="bg-gray-100 w-10 h-10 rounded-full"></span>
+                                </>
+
+                            ) : (
+                                <>
+                                    <Link href={`/create/blog`} title="Tạo bài viết">
+                                        <i className="w-10 bg-gray-100 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
+                                            <IconPen size={20} className="h-10 mx-auto"/>
+                                        </i>
+                                    </Link>
+                                    <Link href={`/`} title="Thông báo">
+                                        <i className="w-10 text-center bg-gray-100 rounded-full block outline-blue-600 outline-2 hover:outline-dashed">
+                                            <IconBell size={20} className="h-10 mx-auto"/>
+                                        </i>
+                                    </Link>
+                                    {status == "authenticated" ? (
+                                        <UserDropdown />
+                                    ) : (
+                                        <Link href={`/auth/login`}>
+                                            <span className="py-2 px-3 rounded-md cursor-pointer bg-blue-600 hover:bg-blue-700 text-white">
+                                                Đăng nhập
+                                            </span>
+                                        </Link>
+                                    )}
+                                </>
+                            )
+                        }
+                        
+                        
                     </div>
                 </div>
             </div>

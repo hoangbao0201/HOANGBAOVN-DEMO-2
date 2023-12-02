@@ -4,6 +4,8 @@ import { ParsedUrlQuery } from "querystring";
 
 import { NextPageWithLayout } from "../_app";
 import { REVALIDATE_TIME } from "@/constants";
+import { BlogSeo } from "@/components/common/SEO";
+import siteMetadata from "@/lib/data/siteMetadata";
 import MainLayout from "@/components/layouts/MainLayout";
 import blogService, { GetBlogsProps } from "@/services/blog.service";
 import ContentBlogDetail from "@/components/modules/Blog/ContentBlogDetail";
@@ -20,26 +22,41 @@ interface BlogDetailPageProps {
 }
 
 const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
+
     return (
-        <main className="max-w-7xl w-full min-h-screen mx-auto mb-4">
-            <div className="grid grid-cols-12">
-                <div className="col-span-1 xl:block hidden pt-3">
-                    <SidebarLeftBlogDetail />
+        <>
+            {blog && (
+                <BlogSeo
+                    title={`${blog.title} - ${siteMetadata.title}`}
+                    thumbnail={blog.thumbnailUrl}
+                    blogImages={blog.blogImages}
+                    summary={blog.summary}
+                    author={blog.author.name}
+                    canonicalUrl={`${siteMetadata.siteUrl}/blog/${blog.slug}-${blog.blogId}`}
+                    createdAt={blog.createdAt}
+                    updatedAt={blog.updatedAt}
+                />
+            )}
+            <main className="max-w-7xl w-full min-h-screen mx-auto mb-4">
+                <div className="grid grid-cols-12">
+                    <div className="col-span-1 xl:block hidden pt-3">
+                        <SidebarLeftBlogDetail />
+                    </div>
+    
+                    <div className="lg:col-span-8 col-span-full pt-3">
+                        {blog ? (
+                            <ContentBlogDetail blog={blog} />
+                        ) : (
+                            <SkeletonCardBlog count={3} />
+                        )}
+                    </div>
+    
+                    <div className="xl:col-span-3 lg:col-span-4 col-span-full pt-3">
+                        <SidebarRightBlogDetail />
+                    </div>
                 </div>
-
-                <div className="lg:col-span-8 col-span-full pt-3">
-                    {blog ? (
-                        <ContentBlogDetail blog={blog} />
-                    ) : (
-                        <SkeletonCardBlog count={3} />
-                    )}
-                </div>
-
-                <div className="xl:col-span-3 lg:col-span-4 col-span-full pt-3">
-                    <SidebarRightBlogDetail />
-                </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

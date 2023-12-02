@@ -5,10 +5,10 @@ import Markdown from 'react-markdown';
 const config = {
     img: ({ node, ...props }: any) => {
       return (
-        <span className="rounded-md text-center w-full">
+        <div className="rounded-md text-center w-full ">
             <Image src={props.src} alt={props.alt} width={500} height={500} className="mx-auto mb-1"/>
-            <span>{props.alt}</span>
-        </span>
+            <p>{props.alt}</p>
+        </div>
       );
     },
     a: ({ node, href, onClick, children, ...props}: any) => {

@@ -53,9 +53,9 @@ const SearchMain = () => {
             </div>
             <i
                 onClick={() => setIsModalSearch(true)}
-                className="block cursor-pointer md:hidden p-2 bg-gray-100 rounded-full outline-blue-600 outline-2 hover:outline-dashed"
+                className="w-10 block cursor-pointer md:hidden bg-gray-100 rounded-full outline-blue-600 outline-2 hover:outline-dashed"
             >
-                <IconSearch size={20} />
+                <IconSearch size={20} className="h-10 mx-auto"/>
             </i>
             <Modal
                 isOpen={isModalSearch}

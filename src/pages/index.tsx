@@ -3,11 +3,13 @@ import { Fragment } from "react";
 
 import { NextPageWithLayout } from "./_app";
 import { REVALIDATE_TIME } from "@/constants";
+import { PageSEO } from "@/components/common/SEO";
+import siteMetadata from "@/lib/data/siteMetadata";
 import CardBlog from "@/components/common/CardBlog";
-import blogService, { GetBlogsProps } from "@/services/blog.service";
 import MainLayout from "@/components/layouts/MainLayout";
 import SideLeftHome from "@/components/modules/Home/SideLeftHome";
 import SideRightHome from "@/components/modules/Home/SideRightHome";
+import blogService, { GetBlogsProps } from "@/services/blog.service";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
 
 interface HomePageProps {
@@ -16,33 +18,45 @@ interface HomePageProps {
 
 const HomePage: NextPageWithLayout<HomePageProps> = ({ blogs }) => {
     return (
-        <main className="max-w-7xl w-full min-h-screen mx-auto">
-            <div className="grid grid-cols-12">
-                <div className="col-span-2 pt-3 h-full hidden xl:block">
-                    <SideLeftHome />
+        <>
+            {
+                blogs && (
+                    <PageSEO
+                        title={`Trang chủ - ${siteMetadata.title}`}
+                        imageUrl=""
+                        canonicalUrl={siteMetadata.siteUrl}
+                        description={siteMetadata.description}
+                    />
+                )
+            }
+            <main className="max-w-7xl w-full min-h-screen mx-auto">
+                <div className="grid grid-cols-12">
+                    <div className="col-span-2 pt-3 h-full hidden xl:block">
+                        <SideLeftHome />
+                    </div>
+                    <div className="xl:col-span-7 lg:col-span-8 col-span-full pt-3">
+                        {blogs ? (
+                            <>
+                                {
+                                    blogs.map((item, index) => {
+                                        return (
+                                            <Fragment key={index}>
+                                                <CardBlog blog={item} />
+                                            </Fragment>
+                                        );
+                                    })
+                                }
+                            </>
+                        ) : (
+                            <SkeletonCardBlog count={3} />
+                        )}
+                    </div>
+                    <div className="xl:col-span-3 lg:col-span-4 col-span-full pt-3 h-full">
+                        <SideRightHome />
+                    </div>
                 </div>
-                <div className="xl:col-span-7 lg:col-span-8 col-span-full pt-3">
-                    {blogs ? (
-                        <>
-                            {
-                                blogs.map((item, index) => {
-                                    return (
-                                        <Fragment key={index}>
-                                            <CardBlog blog={item} />
-                                        </Fragment>
-                                    );
-                                })
-                            }
-                        </>
-                    ) : (
-                        <SkeletonCardBlog count={3} />
-                    )}
-                </div>
-                <div className="xl:col-span-3 lg:col-span-4 col-span-full pt-3 h-full">
-                    <SideRightHome />
-                </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 };
 

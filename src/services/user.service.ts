@@ -44,7 +44,6 @@ class UserService {
         try {
             const userRes = await fetch(`${API_BASE_URL}/api/users/${username}`, {
                 method: "GET",
-                next: { revalidate: 60 * 60 }
             });
             const user = await userRes.json();
             return user;

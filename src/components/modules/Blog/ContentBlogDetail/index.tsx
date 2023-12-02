@@ -75,7 +75,7 @@ const ContentBlogDetail = ({ blog } : ContentBlogDetailProps) => {
                             </Link>
                         </h1>
                         <TagsBlog
-                            className="md:px-8 mt-5 mb-6"
+                            className="md:px-8 px-4 mt-5 mb-6"
                             listTag={blog.blogTags}
                         />
                     </header>

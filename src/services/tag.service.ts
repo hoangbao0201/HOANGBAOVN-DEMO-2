@@ -16,7 +16,6 @@ class TagService {
                 `${API_BASE_URL}/api/tags?${query}`,
                 {
                     method: "GET",
-                    next: { revalidate: 60 * 60 }
                     // headers: {
                     //     Authorization: `Bearer ${token}`
                     // }

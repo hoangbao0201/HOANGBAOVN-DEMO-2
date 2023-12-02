@@ -23,10 +23,11 @@ export interface GetBlogsProps {
     title: string;
     summary: string;
     content: string;
-    thumbnailUrl: string;
+    thumbnailUrl: string | null;
     createdAt: Date;
     updatedAt: Date;
     blogTags: { tags: TagProps }[];
+    blogImages: {urlImage: string}[] | []
     author: {
         role: {
             roleId: number;
@@ -123,7 +124,6 @@ class BlogService {
         try {
             const blogsRes = await fetch(`${API_BASE_URL}/api/blogs?${query}`, {
                 method: "GET",
-                next: { revalidate: 60 * 60 }
             });
 
             const blogs = await blogsRes.json();
@@ -143,7 +143,6 @@ class BlogService {
                 `${API_BASE_URL}/api/blogs/search?${query}`,
                 {
                     method: "GET",
-                    next: { revalidate: 60 * 60 }
                     // headers: {
                     //     Authorization: `Bearer ${token}`
                     // }
@@ -164,7 +163,6 @@ class BlogService {
         try {
             const blogRes = await fetch(`${API_BASE_URL}/api/blogs/${slug}`, {
                 method: "GET",
-                next: { revalidate: 60 * 60 }
                 // headers: {
                 //     Authorization: `Bearer ${token}`
                 // }
