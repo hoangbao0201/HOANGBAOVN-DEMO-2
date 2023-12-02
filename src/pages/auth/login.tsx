@@ -1,14 +1,15 @@
+import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
 import { ChangeEvent, useState } from "react";
 
 import clsx from "clsx";
+import { getServerSession } from "next-auth";
+
+import { NextPageWithLayout } from "../_app";
 import { signIn, useSession } from "next-auth/react";
 import ButtonAuth from "@/components/modules/Auth/ButtonAuth";
 import MainLayout from "@/components/layouts/MainLayout";
-import { NextPageWithLayout } from "../_app";
-import { GetServerSideProps } from "next";
 import { authOptions } from "../api/auth/[...nextauth]";
-import { getServerSession } from "next-auth";
-import { useRouter } from "next/router";
 
 
 const LoginPage : NextPageWithLayout = () => {

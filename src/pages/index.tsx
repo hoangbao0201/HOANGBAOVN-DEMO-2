@@ -2,6 +2,7 @@ import { GetStaticProps } from "next";
 import { Fragment, Suspense } from "react";
 
 import { NextPageWithLayout } from "./_app";
+import { REVALIDATE_TIME } from "@/constants";
 import CardBlog from "@/components/common/CardBlog";
 import blogService, { GetBlogsProps } from "@/services/blog.service";
 import MainLayout from "@/components/layouts/MainLayout";
@@ -59,6 +60,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return {
         props: {
             blogs: blogsRes.blogs
-        }
+        },
+        revalidate: REVALIDATE_TIME
     }
 }

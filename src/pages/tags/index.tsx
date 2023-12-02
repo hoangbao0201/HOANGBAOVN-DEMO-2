@@ -1,9 +1,11 @@
 import { Fragment } from "react";
-import tagService, { GetTagsProps } from "@/services/tag.service";
+import { GetStaticProps } from "next";
+
+import { NextPageWithLayout } from "../_app";
+import { REVALIDATE_TIME } from "@/constants";
 import CardTag from "@/components/modules/Tag/CardTag";
 import MainLayout from "@/components/layouts/MainLayout";
-import { GetStaticProps } from "next";
-import { NextPageWithLayout } from "../_app";
+import tagService, { GetTagsProps } from "@/services/tag.service";
 
 interface TagsPageProps {
     tags: GetTagsProps[]
@@ -44,11 +46,12 @@ TagsPage.getLayout = (page) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const tagssRes = await tagService.findAll();
+    const { success, tags } = await tagService.findAll();
 
     return {
         props: {
-            tags: tagssRes.tags
-        }
+            tags: tags
+        },
+        revalidate: REVALIDATE_TIME
     }
 }

@@ -4,6 +4,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { ParsedUrlQuery } from "querystring";
 
 import { NextPageWithLayout } from "../_app";
+import { REVALIDATE_TIME } from "@/constants";
 import MainLayout from "@/components/layouts/MainLayout";
 import blogService, { GetBlogsProps } from "@/services/blog.service";
 import ContentBlogDetail from "@/components/modules/Blog/ContentBlogDetail";
@@ -57,6 +58,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         props: {
             blog: blog,
         },
+        revalidate: REVALIDATE_TIME
     };
 };
 

@@ -5,6 +5,7 @@ import { ParsedUrlQuery } from "querystring";
 import { GetStaticPaths, GetStaticProps } from "next";
 
 import { NextPageWithLayout } from "../_app";
+import { REVALIDATE_TIME } from "@/constants";
 import MainLayout from "@/components/layouts/MainLayout";
 import userService, { GetUserDetailProps } from "@/services/user.service";
 
@@ -99,6 +100,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         props: {
             user: user,
         },
+        revalidate: REVALIDATE_TIME
     };
 };
 
