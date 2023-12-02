@@ -1,11 +1,22 @@
 import "@/styles/globals.scss";
 import { NextPage } from "next";
+import { Router } from "next/router";
 import type { AppProps } from "next/app";
 
+import "nprogress/nprogress.css";
+import NProgress from "nprogress";
 import { ReactElement, ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
 
 import ProviderLayout from "@/components/layouts/ProviderLayout";
+
+
+//Binding events.
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
+NProgress.configure({ showSpinner: false });
+
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
     getLayout?: (page: ReactElement) => ReactNode;
