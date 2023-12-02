@@ -15,16 +15,19 @@ type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout;
 };
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
+export default function App({
+    Component,
+    pageProps: { session, ...pageProps },
+}: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? ((page) => page);
 
     return (
         <>
-            <ProviderLayout>
-                <SessionProvider>
+            <SessionProvider session={session}>
+                <ProviderLayout>
                     {getLayout(<Component {...pageProps} />)}
-                </SessionProvider>
-            </ProviderLayout>
+                </ProviderLayout>
+            </SessionProvider>
         </>
     );
 }

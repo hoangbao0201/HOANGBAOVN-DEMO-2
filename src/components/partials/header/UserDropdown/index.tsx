@@ -19,7 +19,7 @@ const UserDropdown = () => {
                 <Menu.Button className="block">
                     <Image
                         alt="ảnh người dùng"
-                        src={"/images/avatar_user.jpg"}
+                        src={"/static/images/default/avatar_user_sm.jpg"}
                         width={40}
                         height={40}
                         title="hoangbao"
@@ -50,7 +50,7 @@ const UserDropdown = () => {
                                         >
                                             <Image
                                                 alt="ảnh người dùng"
-                                                src={"/images/avatar_user.jpg"}
+                                                src={"/static/images/default/avatar_user_sm.jpg"}
                                                 width={40}
                                                 height={40}
                                                 title="hoangbao"

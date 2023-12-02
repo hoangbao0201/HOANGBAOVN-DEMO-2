@@ -6,7 +6,7 @@ import Header from "@/components/partials/header";
 
 const SpecialEventWinter = dynamic(
     () =>
-        import("@/components/SpecialEvent/Winter", {
+        import("@/components/special-event/Winter", {
             ssr: false,
         } as ImportCallOptions)
 );
@@ -20,7 +20,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         <>
             <Header />
             <SpecialEventWinter />
-            <div className="">{children}</div>
+            {children}
             <Footer />
         </>
     );

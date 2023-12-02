@@ -1,7 +1,6 @@
 
 import { JWT } from "next-auth/jwt";
 import NextAuth, { NextAuthOptions } from "next-auth";
-// import GitHubProvider from "next-auth/providers/github";
 
 import { API_BASE_URL } from "@/constants";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -22,7 +21,7 @@ async function refreshToken(token: JWT): Promise<JWT> {
     };
 }
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -35,44 +34,32 @@ const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials, req) {
-                if (!credentials?.email || !credentials?.password) return null;
-                const { email, password } = credentials;
-                const res = await fetch(API_BASE_URL + "/api/auth/login", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        email,
-                        password,
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                });
-                if (res.status == 401) {
-                    return null;
+                try {
+                    if (!credentials?.email || !credentials?.password) return null;
+                    const { email, password } = credentials;
+                    const res = await fetch(API_BASE_URL + "/api/auth/login", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            email,
+                            password,
+                        }),
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+
+                    if (!res.ok) {
+                        throw new Error(`Refresh failed with status ${res.status}`);
+                    }
+
+                    const user = await res.json();
+
+                    return user;
+                } catch (error) {
+                    throw error;   
                 }
-
-                const user = await res.json();
-
-                return user;
             },
         }),
-        // GitHubProvider({
-        //     profile(profile) {
-        //         console.log("Profile GitHub: ", profile);
-
-        //         let userRole = "GitHub User";
-        //         if (profile?.email == "jake@claritycoders.com") {
-        //             userRole = "admin";
-        //         }
-
-        //         return {
-        //             ...profile,
-        //             role: userRole,
-        //         };
-        //     },
-        //     clientId: process.env.GITHUB_ID as string,
-        //     clientSecret: process.env.GITHUB_SECRET as string,
-        // }),
     ],
     callbacks: {
         async jwt({ token, user }) {
@@ -89,27 +76,8 @@ const authOptions: NextAuthOptions = {
 
             return session;
         },
-        // async signIn(user, account, profile) {
-        //     const res = await fetch(`${API_BASE_URL}/api/auth/github/callback`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({ user }),
-        //     });
-
-        //     const data = await res.json();
-
-        //     if (res.ok) {
-        //         return Promise.resolve(data);
-        //     } else {
-        //         return Promise.resolve(false);
-        //     }
-        // },
     },
     secret: process.env.NEXTAUTH_SECRET,
 };
 
-const handler = NextAuth(authOptions);
-
-export { handler as GET, handler as POST };
+export default NextAuth(authOptions);
