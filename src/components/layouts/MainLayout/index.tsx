@@ -1,22 +1,29 @@
+import { ReactNode } from "react";
+import dynamic from "next/dynamic";
+
 import Footer from "@/components/partials/footer";
 import Header from "@/components/partials/header";
-import { ReactNode } from "react";
+
+const SpecialEventWinter = dynamic(
+    () =>
+        import("@/components/SpecialEvent/Winter", {
+            ssr: false,
+        } as ImportCallOptions)
+);
 
 interface MainLayoutProps {
-    children: ReactNode
+    children: ReactNode;
 }
 
-const MainLayout = ({ children } : MainLayoutProps) => {
-
+const MainLayout = ({ children }: MainLayoutProps) => {
     return (
         <>
             <Header />
-            <div className="">
-                {children}
-            </div>
+            <SpecialEventWinter />
+            <div className="">{children}</div>
             <Footer />
         </>
-    )
-}
+    );
+};
 
 export default MainLayout;
