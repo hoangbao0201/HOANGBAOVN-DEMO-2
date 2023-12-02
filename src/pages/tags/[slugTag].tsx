@@ -9,6 +9,7 @@ import MainLayout from "@/components/layouts/MainLayout";
 import blogService, { GetBlogsProps } from "@/services/blog.service";
 import SideLeftTagDetail from "@/components/modules/Tag/SideLeftTagDetail";
 import SideRightTagDetail from "@/components/modules/Tag/SideRightTagDetail";
+import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
 
 interface Params extends ParsedUrlQuery {
     slugTag: string;
@@ -25,15 +26,21 @@ const TagDetailPage : NextPageWithLayout<TagDetailPageProps> = ({ blogs }) => {
                     <SideLeftTagDetail />
                 </div>
                 <div className="xl:col-span-7 lg:col-span-8 col-span-full pt-3">
-                    {blogs &&
-                        blogs.length > 0 &&
-                        blogs.map((blog, index) => {
-                            return (
-                                <Fragment key={blog.blogId}>
-                                    <CardBlog blog={blog} />
-                                </Fragment>
-                            );
-                        })}
+                    {blogs ? (
+                        <>
+                            {
+                                blogs.map((blog, index) => {
+                                    return (
+                                        <Fragment key={blog.blogId}>
+                                            <CardBlog blog={blog} />
+                                        </Fragment>
+                                    );
+                                })
+                            }
+                        </>
+                    ) : (
+                        <SkeletonCardBlog count={3} />
+                    )}
                 </div>
                 <div className="xl:col-span-3 lg:col-span-4 col-span-full pt-3 h-full">
                     <SideRightTagDetail />

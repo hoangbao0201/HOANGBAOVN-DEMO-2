@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 
 import { ParsedUrlQuery } from "querystring";
@@ -12,7 +11,6 @@ import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
 import SidebarLeftBlogDetail from "@/components/modules/Blog/SideLeftBlogDetail";
 import SidebarRightBlogDetail from "@/components/modules/Blog/SideRightBlogDetail";
 
-
 interface Params extends ParsedUrlQuery {
     slug: string;
 }
@@ -22,7 +20,6 @@ interface BlogDetailPageProps {
 }
 
 const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
-
     return (
         <main className="max-w-7xl w-full min-h-screen mx-auto mb-4">
             <div className="grid grid-cols-12">
@@ -31,9 +28,11 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                 </div>
 
                 <div className="lg:col-span-8 col-span-full pt-3">
-                    <Suspense fallback={<SkeletonCardBlog />}>
+                    {blog ? (
                         <ContentBlogDetail blog={blog} />
-                    </Suspense>
+                    ) : (
+                        <SkeletonCardBlog count={3} />
+                    )}
                 </div>
 
                 <div className="xl:col-span-3 lg:col-span-4 col-span-full pt-3">
@@ -58,7 +57,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         props: {
             blog: blog,
         },
-        revalidate: REVALIDATE_TIME
+        revalidate: REVALIDATE_TIME,
     };
 };
 

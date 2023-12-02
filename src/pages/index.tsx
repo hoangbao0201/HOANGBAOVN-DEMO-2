@@ -1,5 +1,5 @@
 import { GetStaticProps } from "next";
-import { Fragment, Suspense } from "react";
+import { Fragment } from "react";
 
 import { NextPageWithLayout } from "./_app";
 import { REVALIDATE_TIME } from "@/constants";
@@ -11,7 +11,7 @@ import SideRightHome from "@/components/modules/Home/SideRightHome";
 import SkeletonCardBlog from "@/components/modules/skeletons/SkeletonCardBlog";
 
 interface HomePageProps {
-    blogs: GetBlogsProps[]
+    blogs: GetBlogsProps[];
 }
 
 const HomePage: NextPageWithLayout<HomePageProps> = ({ blogs }) => {
@@ -22,10 +22,10 @@ const HomePage: NextPageWithLayout<HomePageProps> = ({ blogs }) => {
                     <SideLeftHome />
                 </div>
                 <div className="xl:col-span-7 lg:col-span-8 col-span-full pt-3">
-                    <Suspense fallback={<SkeletonCardBlog />}>
+                    {blogs ? (
                         <>
                             {
-                                blogs && blogs.map((item, index) => {
+                                blogs.map((item, index) => {
                                     return (
                                         <Fragment key={index}>
                                             <CardBlog blog={item} />
@@ -34,7 +34,9 @@ const HomePage: NextPageWithLayout<HomePageProps> = ({ blogs }) => {
                                 })
                             }
                         </>
-                    </Suspense>
+                    ) : (
+                        <SkeletonCardBlog count={3} />
+                    )}
                 </div>
                 <div className="xl:col-span-3 lg:col-span-4 col-span-full pt-3 h-full">
                     <SideRightHome />
@@ -47,11 +49,7 @@ const HomePage: NextPageWithLayout<HomePageProps> = ({ blogs }) => {
 export default HomePage;
 
 HomePage.getLayout = (page) => {
-    return (
-        <MainLayout>
-            {page}
-        </MainLayout>
-    );
+    return <MainLayout>{page}</MainLayout>;
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -59,8 +57,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
     return {
         props: {
-            blogs: blogsRes.blogs
+            blogs: blogsRes.blogs,
         },
-        revalidate: REVALIDATE_TIME
-    }
-}
+        revalidate: REVALIDATE_TIME,
+    };
+};
