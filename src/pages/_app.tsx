@@ -1,6 +1,30 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import "@/styles/globals.scss";
+import { NextPage } from "next";
+import type { AppProps } from "next/app";
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import { ReactElement, ReactNode } from "react";
+import { SessionProvider } from "next-auth/react";
+
+import ProviderLayout from "@/components/layouts/ProviderLayout";
+
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+    getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+    Component: NextPageWithLayout;
+};
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+    const getLayout = Component.getLayout ?? ((page) => page);
+
+    return (
+        <>
+            <ProviderLayout>
+                <SessionProvider>
+                    {getLayout(<Component {...pageProps} />)}
+                </SessionProvider>
+            </ProviderLayout>
+        </>
+    );
 }
