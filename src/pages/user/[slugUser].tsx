@@ -17,7 +17,7 @@ const ListBlogUser = dynamic(
 );
 
 interface Params extends ParsedUrlQuery {
-    slug: string;
+    slugUser: string;
 }
 
 interface UserDetailPageProps {
@@ -93,15 +93,23 @@ UserDetailPage.getLayout = (page) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const { slug } = context.params as Params;
-    const { success, user } = await userService.userDetail(slug);
+    try {
+        const { slugUser } = context.params as Params;
+        const { success, user } = await userService.userDetail(slugUser);
 
-    return {
-        props: {
-            user: user,
-        },
-        revalidate: REVALIDATE_TIME
-    };
+        if(!user || !success) {
+            return { notFound: true };
+        }
+
+        return {
+            props: {
+                user: user,
+            },
+            revalidate: REVALIDATE_TIME
+        };
+    } catch (error) {
+        return { notFound: true };
+    }
 };
 
 export const getStaticPaths: GetStaticPaths<Params> = () => {

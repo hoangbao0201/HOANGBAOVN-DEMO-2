@@ -48,6 +48,10 @@ TagsPage.getLayout = (page) => {
 export const getStaticProps: GetStaticProps = async (context) => {
     const { success, tags } = await tagService.findAll();
 
+    if(!tags || !success) {
+        return { notFound: true };
+    }
+
     return {
         props: {
             tags: tags

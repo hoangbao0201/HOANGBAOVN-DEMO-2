@@ -27,10 +27,10 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
             <div className="max-w-7xl w-full h-[60px] mx-auto px-3 flex items-center">
                 {/* <NavbarCollapse /> */}
 
-                <p className="text-lg font-semibold flex flex-shrink-0 items-center">
+                <div className="text-lg font-semibold flex flex-shrink-0 items-center">
                     <Link href={`/`}>HOANGBAO</Link>
                     <span className="mx-3 inline h-5 w-px bg-gray-300/60"></span>
-                </p>
+                </div>
                 <SearchMain />
                 <div className="ml-auto">
                     <div className="flex items-center space-x-2">

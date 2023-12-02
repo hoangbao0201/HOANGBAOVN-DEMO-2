@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "@/constants";
+import axios from "axios";
 // import axios from "axios";
 
 export interface GetUsersProps {
@@ -17,15 +18,13 @@ class AdminService {
 
     async getAllUser(token: string) : Promise<any> {
         try {
-            const usersRes = await fetch(`${API_BASE_URL}/api/admin/users`, {
-                method: "GET",
+            const usersRes = await axios.get(`${API_BASE_URL}/api/admin/users`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             });
-            const users = await usersRes.json();
-            return users;
+            return usersRes.data;
         } catch (error) {
             return {
                 success: false,

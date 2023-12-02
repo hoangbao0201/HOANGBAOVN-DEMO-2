@@ -1,28 +1,19 @@
 import { API_BASE_URL } from "@/constants";
+import axios from "axios";
 
 export interface GetTagsProps {
-    tagId: number,
-    name: string,
-    slug: string,
+    tagId: number;
+    name: string;
+    slug: string;
     _count: {
-        blogTags: number
-    }
+        blogTags: number;
+    };
 }
 class TagService {
-
     async findAll(query?: string): Promise<any> {
         try {
-            const tagsRes = await fetch(
-                `${API_BASE_URL}/api/tags?${query}`,
-                {
-                    method: "GET",
-                    // headers: {
-                    //     Authorization: `Bearer ${token}`
-                    // }
-                }
-            );
-            const tags = await tagsRes.json();
-            return tags;
+            const tagsRes = await axios.get(`${API_BASE_URL}/api/tags?${query}`);
+            return tagsRes.data;
         } catch (error) {
             return {
                 success: false,

@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "@/constants";
+import axios from "axios";
 
 export interface GetUserDetailProps {
     userId: number,
@@ -22,15 +23,11 @@ class UserService {
 
     async loginUser(accout: string, password: string) : Promise<any> {
         try {
-            const userRes = await fetch(`${API_BASE_URL}/api/auth/login`, {
-                method: "POST",
-                body: JSON.stringify({
-                    email: accout,
-                    password: password
-                })
+            const userRes = await axios.post(`${API_BASE_URL}/api/auth/login`, {
+                email: accout,
+                password: password
             });
-            const user = await userRes.json();
-            return user;
+            return userRes.data;
         } catch (error) {
             return {
                 success: false,
@@ -42,31 +39,8 @@ class UserService {
 
     async userDetail(username: string) : Promise<any> {
         try {
-            const userRes = await fetch(`${API_BASE_URL}/api/users/${username}`, {
-                method: "GET",
-            });
-            const user = await userRes.json();
-            return user;
-        } catch (error) {
-            return {
-                success: false,
-                message: "error user successful",
-                error: error
-            };
-        }
-    }
-
-    async myUser(token: string) : Promise<any> {
-        try {
-            const userRes = await fetch(`${API_BASE_URL}/api/users/me`, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-            });
-            const user = await userRes.json(); 
-            return user;
+            const userRes = await axios.get(`${API_BASE_URL}/api/users/${username}`);
+            return userRes.data;
         } catch (error) {
             return {
                 success: false,
@@ -78,15 +52,13 @@ class UserService {
 
     async getUsersByAdmin(token: string) : Promise<any> {
         try {
-            const usersRes = await fetch(`${API_BASE_URL}/api/users/admin`, {
-                method: "GET",
+            const usersRes = await axios.get(`${API_BASE_URL}/api/users/admin`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             });
-            const users = await usersRes.json();
-            return users;
+            return usersRes.data;
         } catch (error) {
             return {
                 success: false,

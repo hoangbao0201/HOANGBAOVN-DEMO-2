@@ -67,12 +67,20 @@ HomePage.getLayout = (page) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const blogsRes = await blogService.findAll();
-
-    return {
-        props: {
-            blogs: blogsRes.blogs,
-        },
-        revalidate: REVALIDATE_TIME,
-    };
+    try {
+        const { success, blogs } = await blogService.findAll();
+    
+        if(!blogs || !success) {
+            return { notFound: true };
+        }
+    
+        return {
+            props: {
+                blogs: blogs,
+            },
+            revalidate: REVALIDATE_TIME,
+        };
+    } catch (error) {
+        return { notFound: true };
+    }
 };

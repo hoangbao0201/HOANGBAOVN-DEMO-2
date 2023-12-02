@@ -7,12 +7,12 @@ const config = {
       return (
         <div className="rounded-md text-center w-full ">
             <Image src={props.src} alt={props.alt} width={500} height={500} className="mx-auto mb-1"/>
-            <p>{props.alt}</p>
+            <div>{props.alt}</div>
         </div>
       );
     },
     a: ({ node, href, onClick, children, ...props}: any) => {
-        return <Link className="text-blue-600" href={href} {...props}>{children}</Link>
+        return <div><Link className="text-blue-600" href={href} {...props}>{children}</Link></div>
     }
 };
 

@@ -14,7 +14,7 @@ import SidebarLeftBlogDetail from "@/components/modules/Blog/SideLeftBlogDetail"
 import SidebarRightBlogDetail from "@/components/modules/Blog/SideRightBlogDetail";
 
 interface Params extends ParsedUrlQuery {
-    slug: string;
+    slugBlog: string;
 }
 
 interface BlogDetailPageProps {
@@ -67,15 +67,23 @@ BlogDetailPage.getLayout = (page) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    const { slug } = context.params as Params;
-    const { success, blog } = await blogService.getBlog(slug);
+    try {
+        const { slugBlog } = context.params as Params;
+        const { success, blog } = await blogService.getBlog(slugBlog);
 
-    return {
-        props: {
-            blog: blog,
-        },
-        revalidate: REVALIDATE_TIME,
-    };
+        if(!blog || !success) {
+            return { notFound: true };
+        }
+
+        return {
+            props: {
+                blog: blog,
+            },
+            revalidate: REVALIDATE_TIME,
+        };
+    } catch (error) {
+        return { notFound: true };
+    }
 };
 
 export const getStaticPaths: GetStaticPaths<Params> = () => {

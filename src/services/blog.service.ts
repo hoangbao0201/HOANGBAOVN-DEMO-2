@@ -1,8 +1,6 @@
 import { API_BASE_URL } from "@/constants";
 import { textToSlug } from "@/utils/testToSlug";
-
-
-
+import axios from "axios";
 
 export interface TagProps {
     name: string;
@@ -93,24 +91,21 @@ class BlogService {
         try {
             const { title, content, published, blogTags, summary } = data;
 
-            const blogRes = await fetch(`${API_BASE_URL}/api/blogs`, {
-                method: "POST",
+            const blogRes = await axios.post(`${API_BASE_URL}/api/blogs`, {
+                title: title,
+                slug: textToSlug(title),
+                content: content,
+                published: published,
+                blogTags: blogTags,
+                thumbnailUrl: "",
+                summary: summary,
+            }, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({
-                    title: title,
-                    slug: textToSlug(title),
-                    content: content,
-                    published: published,
-                    blogTags: blogTags,
-                    thumbnailUrl: "",
-                    summary: summary,
-                }),
             });
-            const blog = await blogRes.json();
-            return blog;
+            return blogRes.data;
         } catch (error) {
             return {
                 success: false,
@@ -122,12 +117,9 @@ class BlogService {
 
     async findAll(query?: string): Promise<any> {
         try {
-            const blogsRes = await fetch(`${API_BASE_URL}/api/blogs?${query}`, {
-                method: "GET",
-            });
+            const blogsRes = await axios.get(`${API_BASE_URL}/api/blogs?${query}`);
 
-            const blogs = await blogsRes.json();
-            return blogs;
+            return blogsRes.data;
         } catch (error) {
             return {
                 success: false,
@@ -139,17 +131,8 @@ class BlogService {
 
     async searchBlogs(query?: string): Promise<any> {
         try {
-            const blogsRes = await fetch(
-                `${API_BASE_URL}/api/blogs/search?${query}`,
-                {
-                    method: "GET",
-                    // headers: {
-                    //     Authorization: `Bearer ${token}`
-                    // }
-                }
-            );
-            const blogs = await blogsRes.json();
-            return blogs;
+            const blogsRes = await axios.get(`${API_BASE_URL}/api/blogs/search?${query}`);
+            return blogsRes.data;
         } catch (error) {
             return {
                 success: false,
@@ -161,14 +144,8 @@ class BlogService {
 
     async getBlog(slug: string): Promise<any> {
         try {
-            const blogRes = await fetch(`${API_BASE_URL}/api/blogs/${slug}`, {
-                method: "GET",
-                // headers: {
-                //     Authorization: `Bearer ${token}`
-                // }
-            });
-            const blog = await blogRes.json();
-            return blog;
+            const blogRes = await axios.get(`${API_BASE_URL}/api/blogs/${slug}`);
+            return blogRes.data;
         } catch (error) {
             return {
                 success: false,

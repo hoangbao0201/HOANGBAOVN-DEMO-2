@@ -51,9 +51,9 @@ const ContentBlogDetail = ({ blog } : ContentBlogDetailProps) => {
                             <div className="ml-3">
                                 <div className="flex items-center mb-1">
                                     <Link href={`/user/${blog.author.username}`}>
-                                        <p className="hover:underline font-medium">
+                                        <div className="hover:underline font-medium">
                                             {blog.author.name}
-                                        </p>
+                                        </div>
                                     </Link>
                                     <span className="ml-2 text-sm font-medium border border-gray-400 px-2 py-[2px] rounded-md">
                                         Cấp {blog.author.rank || 1}
