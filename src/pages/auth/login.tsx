@@ -16,8 +16,8 @@ const LoginPage : NextPageWithLayout = () => {
 
     const router = useRouter();
     const [dataLogin, setDataLogin] = useState({
-        accout: "hoangbao020103@gmail.com",
-        password: "baodeptrai199",
+        accout: "",
+        password: "",
     });
     const [loadingLogin, setLoadingLogin] = useState(false);
 

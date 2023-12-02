@@ -5,7 +5,7 @@ import clsx from "clsx";
 import SearchMain from "./SearchMain";
 import UserDropdown from "./UserDropdown";
 import { useSession } from "next-auth/react";
-import NavbarCollapse from "./NavbarCollapse";
+// import NavbarCollapse from "./NavbarCollapse";
 import IconPen from "@/components/modules/icons/IconPen";
 import IconBell from "@/components/modules/icons/IconBell";
 
@@ -23,7 +23,7 @@ const Header = ({ isDynamic = true } : HeaderProps) => {
             )}
         >
             <div className="max-w-7xl w-full h-[60px] mx-auto px-3 flex items-center">
-                <NavbarCollapse />
+                {/* <NavbarCollapse /> */}
 
                 <p className="text-lg font-semibold flex flex-shrink-0 items-center">
                     <Link href={`/`}>HOANGBAO</Link>
