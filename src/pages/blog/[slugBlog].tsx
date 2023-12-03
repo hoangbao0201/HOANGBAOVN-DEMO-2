@@ -67,24 +67,16 @@ BlogDetailPage.getLayout = (page) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    try {
-        const { slugBlog } = context.params as Params;
-        const { success, blog } = await blogService.getBlog(slugBlog);
+    const { slugBlog } = context.params as Params;
+    const { success, blog } = await blogService.getBlog(slugBlog);
 
-        if(!blog || !success) {
-            return { notFound: true };
-        }
-
-        return {
-            props: {
-                blog: blog,
-            },
-            revalidate: REVALIDATE_TIME,
-        };
-    } catch (error) {
-        return { notFound: true };
-    }
-};
+    return {
+        props: {
+            blog: blog,
+        },
+        revalidate: REVALIDATE_TIME,
+    };
+}
 
 export const getStaticPaths: GetStaticPaths<Params> = () => {
     return {

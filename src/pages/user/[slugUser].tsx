@@ -93,23 +93,15 @@ UserDetailPage.getLayout = (page) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    try {
-        const { slugUser } = context.params as Params;
-        const { success, user } = await userService.userDetail(slugUser);
+    const { slugUser } = context.params as Params;
+    const { success, user } = await userService.userDetail(slugUser);
 
-        if(!user || !success) {
-            return { notFound: true };
-        }
-
-        return {
-            props: {
-                user: user,
-            },
-            revalidate: REVALIDATE_TIME
-        };
-    } catch (error) {
-        return { notFound: true };
-    }
+    return {
+        props: {
+            user: user,
+        },
+        revalidate: REVALIDATE_TIME
+    };
 };
 
 export const getStaticPaths: GetStaticPaths<Params> = () => {
