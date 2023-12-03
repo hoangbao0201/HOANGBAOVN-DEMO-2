@@ -19,7 +19,7 @@ interface HomePageProps {
 const HomePage: NextPageWithLayout<HomePageProps> = ({ blogs }) => {
     return (
         <>
-            {
+            {/* {
                 blogs && (
                     <PageSEO
                         title={`Trang chủ - ${siteMetadata.title}`}
@@ -28,7 +28,7 @@ const HomePage: NextPageWithLayout<HomePageProps> = ({ blogs }) => {
                         description={siteMetadata.description}
                     />
                 )
-            }
+            } */}
             <main className="max-w-7xl w-full min-h-screen mx-auto">
                 <div className="grid grid-cols-12">
                     <div className="col-span-2 pt-3 h-full hidden xl:block">

@@ -25,7 +25,7 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
 
     return (
         <>
-            {blog && (
+            {/* {blog && (
                 <BlogSeo
                     title={`${blog.title} - ${siteMetadata.title}`}
                     thumbnail={blog.thumbnailUrl}
@@ -36,7 +36,7 @@ const BlogDetailPage: NextPageWithLayout<BlogDetailPageProps> = ({ blog }) => {
                     createdAt={blog.createdAt}
                     updatedAt={blog.updatedAt}
                 />
-            )}
+            )} */}
             <main className="max-w-7xl w-full min-h-screen mx-auto mb-4">
                 <div className="grid grid-cols-12">
                     <div className="col-span-1 xl:block hidden pt-3">
